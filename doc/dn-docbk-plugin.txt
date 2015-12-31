@@ -13,6 +13,7 @@ Dn Docbk Filetype Plugin
      4. Dependencies .......................... |dn-docbk-dependencies|
      5. Variables ............................. |dn-docbk-variables|
      6. Detecting docbook files ............... |dn-docbk-detect|
+     7. Syntastic ............................. |dn-docbk-syntastic|
 -------------------------------------------------------------------------
                                                         *dn-docbk-overview*
 2. Overview
@@ -46,7 +47,7 @@ This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by
                                                             *dn-docbk-help*
 This ftplugin contributes to the |dn-utils-plugin| help system (see
 |DNU_Help| for details). In the help system navigate to:
-vim -> docbk ftplugin.
+vim -> docbook.
 -------------------------------------------------------------------------
                                                           *dn-docbk-detect*
 6. Detecting docbook files
@@ -64,5 +65,33 @@ The following is an example:
 
     <article xmlns="http://docbook.org/ns/docbook" version="5.0"
         xml:lang="en">
+-------------------------------------------------------------------------
+                                                       *dn-docbk-syntastic*
+                                             *jingrng*  *jingsch*  *xmllingdbk*
+6. Syntastic
+
+Three docbook syntax checkers are provided by the dn-docbk ftplugin:
+
+    'xmllintdbk'        docbook RelaxNG schema
+    'jingrng'           docbook RelaxNG schema
+    'jingsch'           docbook Schematron schema
+    
+For each checker the user can use global variables to specify a schema
+and catalog to use:
+
+    RelaxNG schema      g:dn_docbk_relaxng_schema
+    Schematron schema   g:dn_docbk_schematron_schema
+    xml catalog         g:dn_docbook_xml_catalog
+
+If no schema is specified, the checker uses the following values:
+
+    RelaxNG schema      http://www.docbook.org/xml/5.0/rng/docbook.rng
+    Schematron schema   http://www.docbook.org/xml/5.0/sch/docbook.sch
+    xml catalog         default catalog, see xmlcatalog(1)
+
+By default, syntastic is set to use the 'jingrng' and 'jingsch' checkers
+(by setting the g:syntastic_docbk_checkers variable). This can be
+overridden by the user by setting the b:syntastic_docbk_checkers variable
+(see |'b:syntastic_checkers'|).
 -------------------------------------------------------------------------
  vim:tw=78:fo=tcq2:ts=4:ft=help:

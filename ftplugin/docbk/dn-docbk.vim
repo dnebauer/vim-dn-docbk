@@ -6,7 +6,7 @@
 " 1.  CONTROL STATEMENTS                                              {{{1
 
 " Only do this when not done yet for this buffer
-if exists('b:did_docbk') | finish | endif
+if exists('b:loaded_dn_docbk_ftplugin') | finish | endif
 let b:did_docbk = 1
 
 " Use default cpoptions to avoid unpleasantness from customised
@@ -16,43 +16,58 @@ set cpo&vim
 
 " ========================================================================
 
-" 2.  VARIABLES                                                       {{{1
+" 2.  SYNTASTIC                                                       {{{1
+
+" Ensure filetype 'docbk' is set                                      {{{2
+if exists('g:syntastic_extra_filetypes')
+    if ! count(g:syntastic_extra_filetypes, 'docbk')
+        call add(g:syntastic_extra_filetypes, 'docbk')
+    endif
+else
+    let g:syntastic_extra_filetypes = ['docbk']
+endif
+
+" Select checkers to use                                              {{{2
+" Available checkers are 'xmllintdbk', 'jingrng' and 'jingsch'
+let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']
+
+" ========================================================================
+
+" 3.  VARIABLES                                                       {{{1
 
 " help                                                                {{{2
+" - add to plugins list (b:dn_help_plugins)                           {{{3
 if !exists('b:dn_help_plugins')
-    let b:dn_help_plugins = []
+    let b:dn_help_plugins = {}
 endif
+if ! count(b:dn_help_plugins, 'docbook')
+    call add(b:dn_help_plugins, 'docbook')
+endif                                                               " }}}3
+" - add help topics (b:dn_help_topics)                                {{{3
 if !exists('b:dn_help_topics')
     let b:dn_help_topics = {}
 endif
+let b:dn_help_topics['docbook'] = { 
+            \ 'syntastic' : 'docbk_syntastic', 
+            \ 'snippets'  : 'docbk_snippets', 
+            \ 'output'    : 'docbk_output',
+            \ }                                                     " }}}3
+" - add help data for help topics (b:dn_help_data)                    {{{3
 if !exists('b:dn_help_data')
     let b:dn_help_data = {}
 endif
-if count(b:dn_help_plugins, 'dn-docbk') == 0
-    call add(b:dn_help_plugins, 'dn-docbk')
-    if !has_key(b:dn_help_topics, 'vim')
-        let b:dn_help_topics['vim'] = {}
-    endif
-    let b:dn_help_topics['vim']['docbk ftplugin'] 
-                \ = 'vim_docbk_ftplugin'
-    let b:dn_help_data['vim_docbk_ftplugin'] = [ 
-        \ 'This docbook ftplugin automates the following tasks:',
-        \ '',
-        \ '',
-        \ '',
-        \ 'Task                   Mapping  Command',
-        \ '',
-        \ '--------------------   -------  ------------',
-        \ '',
-        \ 'generate html output   \gh      GenerateHTML',
-        \ '',
-        \ 'generate pdf output    \gp      GeneratePDF',
-        \ '',
-        \ 'display html output    \vh      ViewHTML',
-        \ '',
-        \ 'display pdf output     \vp      ViewPDF',
-        \ ]
-endif
+let b:dn_help_data['docbk_snippets'] = [ 
+            \ 'Snippets:', 
+            \ '', 
+            \ ' ', '', 
+            \ 'Stub',
+            \ ]
+let b:dn_help_data['docbk_output'] = [ 
+            \ 'Output:', 
+            \ '', 
+            \ ' ', '', 
+            \ 'Stub',
+            \ ]                                                     " }}}3
 
 " operating system                                                    {{{2
 if has('win32') || has ('win64')
@@ -63,7 +78,7 @@ endif
 
 " ========================================================================
 
-" 3.  FUNCTIONS                                                       {{{1
+" 4.  FUNCTIONS                                                       {{{1
 
 " Function: s:execute_shell_command                                   {{{2
 " Purpose:  execute shell command
@@ -106,14 +121,14 @@ function! s:dn_utils_missing()
     return !exists('b:do_not_load_dn_utils')
 endfunction
 " ------------------------------------------------------------------------
-" 4.  CONTROL STATEMENTS                                              {{{1
+" 5.  CONTROL STATEMENTS                                              {{{1
 
 " restore user's cpoptions
 let &cpo = s:save_cpo
 
 " ========================================================================
 
-" 5.  MAPPINGS AND COMMANDS                                           {{{1
+" 6.  MAPPINGS AND COMMANDS                                           {{{1
 
 " Mappings:                                                           {{{2
 

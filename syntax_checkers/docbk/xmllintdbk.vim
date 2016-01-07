@@ -35,13 +35,13 @@ function! SyntaxCheckers_xml_xmllint_GetLocList() dict
     " - use standard options from original checker (part of 'args')
     let l:args = ['--xinclude', '--postvalid', '--noout']
     " - add schema if available (part of 'args')
-    let l:schema = dn_docbk#util#schemaLocation('rng')
+    let l:schema = dndocbk#util#schemaLocation('rng')
     if l:schema
         call extend(l:args, ['--relaxng', l:schema])
     endif
     let l:makeprg_options.args = l:args
     " - add user catalog if available (part of 'exe_before')
-    let l:catalog = dn_docbk#util#userCatalog()
+    let l:catalog = dndocbk#util#userCatalog()
     if l:catalog
         let l:catalog = 'XML_CATALOG_FILES=' . l:catalog
         let l:makeprg_options.exe_before = l:catalog

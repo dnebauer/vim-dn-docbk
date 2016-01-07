@@ -17,7 +17,7 @@ set cpo&vim
 
 " set schema-dependent settings
 let s:schema_type = 'sch'
-let s:schema_location = dn_docbk#util#schemaLocation(s:schema_type)
+let s:schema_location = dndocbk#util#schemaLocation(s:schema_type)
 if ! s:schema_location
     echoerr "dn-docbk ftplugin: unable to determine '" . 
                 \ s:schema_type . "' location"
@@ -29,7 +29,7 @@ let s:check_name = 'jing' . s:schema_type
 function! SyntaxCheckers_docbk_jingsch_GetLocList() dict
     let s:args = []
     " use user catalog if found
-    let s:user_catalog = dn_docbk#util#userCatalog()
+    let s:user_catalog = dndocbk#util#userCatalog()
     if s:user_catalog
         call extend(s:args, ['-C', s:user_catalog])
         unlet s:catalog

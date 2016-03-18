@@ -21,7 +21,7 @@ let s:schema_location = dndocbk#util#schemaLocation(s:schema_type)
 if ! s:schema_location
     echoerr "dn-docbk ftplugin: unable to determine '" . 
                 \ s:schema_type . "' location"
-    finish
+endif
 let s:check_name = 'jing' . s:schema_type
 
 " jing command structure is: 'jing [-C *catalog_path*] *schema_path* *xml_path*'

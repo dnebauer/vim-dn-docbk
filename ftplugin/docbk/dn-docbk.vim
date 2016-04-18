@@ -7,7 +7,7 @@
 
 " Only do this when not done yet for this buffer
 if exists('b:loaded_dn_docbk_ftplugin') | finish | endif
-let b:did_docbk = 1
+let b:loaded_dn_docbk_ftplugin = 1
 
 " Use default cpoptions to avoid unpleasantness from customised
 " 'compatible' settings
@@ -118,7 +118,7 @@ endfunction
 " Prints:   if error display user error message and shell feedback
 " Return:   return status of command as vim boolean
 function! s:dn_utils_missing()
-    return !exists('b:do_not_load_dn_utils')
+    return !exists('b:loaded_dn_utils')
 endfunction
 " ------------------------------------------------------------------------
 " 5.  CONTROL STATEMENTS                                              {{{1

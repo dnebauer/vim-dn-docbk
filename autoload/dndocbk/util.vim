@@ -1,18 +1,31 @@
-if exists('g:loaded_dn_docbk_util_autoload') || !exists('g:loaded_dn_docbk_ftplugin')
-    finish
-endif
+" Title:   Vim library for vim-dn-docbk filetype plugin
+" Author:  DavidNebauer <davidnebauer[AT]hotkey[DOT]net[DOT]au>
+" Licence: Public domain
+" URL:     https://github.com/dnebauer/vim-dn-docbk
+
+" CONTROL STATEMENTS:
+
+" load only once                                                       {{{1
+if exists('g:loaded_dn_docbk_util_autoload') | finish | endif
 let g:loaded_dn_docbk_util_autoload = 1
 
+" requires plugin to be loaded                                         {{{1
+if !exists('g:loaded_dn_docbk_ftplugin')
+    echoerr "Haven't loaded vim-dn-docbk plugin - check runtimepath"
+    finish
+endif
+
+" disable user's cpoptions                                             {{{1
 let s:save_cpo = &cpo
-set cpo&vim
+set cpo&vim    "                                                       }}}1
 
-function! dn_docbk#util#isRunningWindows() abort
-    return has('win16') || has('win32') || has('win64')
-endfunction
+" FUNCTIONS:
 
-function! dn_docbk#util#schemaLocation(type) abort
-    " returns location of relaxng or schematron schema
-    " - params: type - schema type [required, must be 'rng'|'sch']
+" dndocbk#util#schemaLocation(type)                                    {{{1
+" does:   get location of relaxng or schematron schema
+" params: type - schema type [required, must be 'rng'|'sch']
+" return: string (path)
+function! dndocbk#util#schemaLocation(type) abort
     " first, get schema's user location (if available) and default location
     if a:type == 'rng'
         if exists('g:dn_docbk_relaxng_schema')
@@ -36,9 +49,19 @@ function! dn_docbk#util#schemaLocation(type) abort
     endif
 endfunction
 
-function! dn_docbk#util#userCatalog() abort
-    " returns location of user-supplied xml catalog if provided
+" dndocbk#util#userCatalog()                                           {{{1
+" does:   get location of user-supplied xml catalog (if provided)
+" params: nil
+" return: string (path) or 0 if none provided
+function! dndocbk#util#userCatalog() abort
     if g:dn_docbk_xml_catalog
         return g:dn_docbk_xml_catalog
     endif
-endfunction
+endfunction    "                                                       }}}1
+
+" CONTROL STATEMENTS:
+
+" restore user's cpoptions                                             {{{1
+let &cpo = s:save_cpo
+
+" vim:fdm=marker:

@@ -1,5 +1,5 @@
 " Function:    Vim ftplugin for docbk
-" Last Change: 2015-12-22
+" Last Change: 2016-04-27
 " Maintainer:  David Nebauer <david@nebauer.org>
 " License:     Public domain
 
@@ -62,7 +62,7 @@ let b:dn_help_data['docbk_output'] = [
             \ '', 
             \ ' ', '', 
             \ 'Stub',
-            \ ]                                                      " }}}3
+            \ ]
 
 " os-dependent (os, vim_home, vimrc)                                   {{{2
 if has('win32') || has ('win64')
@@ -71,187 +71,134 @@ if has('win32') || has ('win64')
 elseif has('unix')
     let s:os = 'nix'
     let s:vim_home = $HOME . '/.vim'
-endif    "                                                             }}}2
+endif
+
+" vim-docbk (Jaromir Hradilek) snippet directories                     {{{2
+let s:jhs_dir = s:vim_home . '/repos/jhradilek/vim-snippets'
+let s:jhs_git = s:jhs_dir . '/.git'
+let s:jhs_snippets = s:jhs_dir . '/snippets'
 
 " 4.  FUNCTIONS                                                        {{{1
 
-" s:dn_utils_missing()                                                 {{{2
-" does:   execute shell command
+" s:have_dnu_functions()                                               {{{2
+" does:   check for required dn-utils functions
 " params: nil
+" prints: error message listing missing functions
 " insert: nil
-" return: whether vim-dn-utils plugin is loaded [boolean]
-function! s:dn_utils_missing()
-    return !exists('b:loaded_dn_utils')
+" return: whether required vim-dn-utils functions are available [boolean]
+" note:   DNU_LocalGitRepoFetch, DNU_LocalGitRepoUpdatedRecently
+function! s:have_dnu_functions()
+    " functions to check
+    let l:fns = [
+                \ '*DNU_LocalGitRepoFetch', 
+                \ '*DNU_LocalGitRepoUpdatedRecently'
+                \ ]
+    " check for functions
+    let l:err = 0  " false
+    for l:fn in l:fns
+        if ! exists(l:fn)
+            let l:name = strpart(l:fn, 1)
+            echoerr "dn-docbk: cannot locate function '" . l:name . "'"
+            let l:err = 1  " true
+        endif
+    endfor
+    " report further errors and return
+    if l:err
+        echoerr "dn-docbk: is plugin 'dn-utils' loaded?"
+        return
+    endif
+    return 1  " true
 endfunction
 
-" s:ensureSnippetsAreAvailable(vimhome)                                {{{2
+" s:ensureJHSnippetsAreAvailable()                                     {{{2
 " does:   ensure uptodate snippet files from jhradilek/vim-docbk
 "         are available in ~/.vim/repos/jhradilek/vim-snippets
-" params: vimhome - vim home directory [required]
+" params: nil
 " insert: nil
 " return: nil
-function! s:ensureSnippetsAreAvailable(vimhome)
-    " ensure up to date snippet files from jhradilek/vim-docbk
-    " are available in ~/.vim/repos/jhradilek/vim-snippets
-    " check for repo directory
-    let l:root = a:vimhome . '/repos/jhradilek'
-    let l:dir = l:root . '/vim-snippets'
-    let l:git = l:dir . '/.git'
-    let l:snippets = l:dir . '/snippets'
+function! s:ensureJHSnippetsAreAvailable()
     " try to add repo if not found
     let l:repo = 'https://github.com/jhradilek/vim-snippets.git'
-    if ! isdirectory(l:git)
+    if ! isdirectory(s:jhs_git)
         if ! executable('git')
-            echoerr 'Cannot find docbook snippets'
-            echoerr 'Cannot find git - unable to install them'
+            echoerr 'dn-docbk: cannot find docbook snippets'
+            echoerr 'dn-docbk: cannot find git - unable to install them'
             return
         endif
-        echo 'Installing docbook and rng snippets...'
-        let l:cmd = 'git clone ' . l:repo . ' ' . l:dir
+        echo 'dn-docbk: installing docbook and rng snippets...'
+        let l:cmd = 'git clone ' . l:repo . ' ' . s:jhs_dir
         let l:err = systemlist(l:cmd)
         if v:shell_error
-            echoerr 'Cannot find docbook snippets'
-            echoerr 'Unable to install docbook snippets'
+            echoerr 'dn-docbk: install failed'
             if len(l:err) > 0
-                echoerr 'Error message:'
+                echoerr 'dn-docbk: error message:'
                 for l:line in l:err | echoerr '  ' . l:line | endfor
             endif
             return
         endif  " v:shell_error
         " perform initial fetch operation to ensure existence
         " of '.git/FETCH_HEAD'
-        if s:localRepoFetch(l:git) | echo 'Done' | endif
-    endif  " ! isdirectory(l:git)
-    " add snippets directory
-    if isdirectory(l:snippets)
-        call add(g:neosnippet#snippets_directory, l:snippets)
-    else
-        echoerr 'Unable to find docbook snippets directory'
-    endif
-    " exit if can't find local repo
-    "  - must have been error message generated above
-    if ! isdirectory(l:git) | return | endif
-    " decide whether need to update
-    if s:localRepoUpdatedRecently(l:dir, 604800)  " try to update
-        if ! executable('git')  " need git to update
-            echoerr 'Cannot find git - unable to ensure'
-            echoerr 'docbook snippets are up to date'
+        if ! DNU_LocalGitRepoFetch(s:jhs_git)
+            echoerr 'dn-docbk: post-install fetch failed'
             return
         endif
-        if ! s:localRepoFetch(l:git) | return | endif
+        " success
+        echo 'dn-docbk: done'
+        return b:dn_true
+    endif  " ! isdirectory(s:jhs_git)
+    " exit if can't find local repo
+    "  - must have been error message generated above
+    if ! isdirectory(s:jhs_git) | return | endif
+    " decide whether need to update
+    if DNU_LocalGitRepoUpdatedRecently(s:jhs_dir, 604800)  " try to update
+        " even if fail to update will exit with success code
+        " - user will have to use possibly outdated snippets
+        if ! executable('git')  " need git to update
+            echoerr 'dn-docbk: cannot find git'
+            echoerr 'dn-docbk: unable to ensure dbk snippets are up to date'
+            return b:dn_true
+        endif
+        if ! DNU_LocalGitRepoFetch(s:jhs_git, 'vim-docbk: ')
+            return b:dn_true
+        endif
     endif  " l:do_fetch
     " presume success if haven't exited yet
-    return 1
+    return b:dn_true
 endfunction
 
-" s:localRepoFetch(dir)                                                {{{2
-" does:   perform a fetch on a local git repository
-" params: path to '.git' subdirectory in repository
-" prints: error messages if fails
-" return: boolean, whether fetch successful
-function! s:localRepoFetch(dir)
-    " check directory
-    let l:dir = resolve(expand(a:dir))
-    if ! isdirectory(l:dir)
-        echoerr "Invalid repository '.git' directory ('" . a:dir . "')"
-        return
-    endif
-    " need git
-    if ! executable('git')  " need git to update
-        echoerr 'Cannot find git - unable to perform fetch operation'
-        return
-    endif
-    " do fetch
-    let l:cmd = "git --git-dir='" . l:dir . "' fetch"
-    if exists('l:err') | unlet l:err | endif
-    let l:err = systemlist(l:cmd)
-    if v:shell_error
-        echoerr "Unable to perform fetch operation on '" . a:dir . "'"
-        if len(l:err) > 0
-            echoerr 'Error message:'
-            for l:line in l:err | echoerr '  ' . l:line | endfor
+" s:useJHSnippets()                                                    {{{2
+" does:   use snippet files in ~/.vim/repos/jhradilek/vim-snippets
+" params: nil
+" insert: nil
+" return: nil
+function! s:useJHSnippets()
+    " add it to the neosnippets directory list
+    if isdirectory(s:jhs_snippets)
+        if ! exists('g:neosnippet#snippets_directory')
+            let g:neosnippet#snippets_directory = []
         endif
-        return
-    endif  " v:shell_error
-    " success if still here
-    return 1
+        call add(g:neosnippet#snippets_directory, s:jhs_snippets)
+    else
+        echoerr 'dn-docbk: unable to find docbook snippets directory'
+    endif
 endfunction
-
-" s:localRepoUpdatedRecently(dir, time)                                {{{2
-" does:   check that a local repository has been updated
-"         within a given time period
-" params: dir  - directory containing local repository
-"         time - time in seconds
-" prints: error messages if setup fails
-" return: boolean
-" note:   determines time of last 'fetch' operation
-"         (so also 'pull' operations)
-" note:   uses python and python modules 'os' and 'time'
-" note:   designed to determine whether repo needs to be
-"         updated, so if it fails it returns false,
-"         presumably triggering an update
-" note:   a week is 604800 seconds
-" note:   will display error message if:
-"         - cannot find '.git/FETCH_HEAD' file in directory
-"         - time value is invalid
-" note:   will fail silently if:
-"         - python is absent
-function! s:localRepoUpdatedRecently(dir, time)
-    " need python
-    if ! executable('python') | return | endif
-    " check parameters
-    let l:dir = resolve(expand(a:dir))
-    if ! isdirectory(l:dir)
-        echoerr "Not a valid directory ('" . l:dir . "')"
-        return
-    endif
-    let l:fetch = l:dir . '/.git/FETCH_HEAD'
-    if ! filereadable(l:fetch)
-        echoerr "Not a valid git repository ('" . l:dir . "')"
-        return
-    endif
-    if a:time !~ '^0$\|^[1-9][0-9]*$'
-        echoerr "Not a valid time ('" . a:time . "')"
-    endif
-    " get time of last fetch (in seconds since epoch)
-    let l:cmd = "python -c \"import os;print os.stat('"
-                \ . l:fetch . "').st_mtime\""
-    let l:last_fetch_list = systemlist(l:cmd)
-    if v:shell_error | return | endif
-    if type(l:last_fetch_list) != type([])
-                \ || len(l:last_fetch_list) != 1
-                \ || len(l:last_fetch_list[0]) == 0
-        " expected single-item list
-        return
-    endif
-    let l:last_fetch = l:last_fetch_list[0]
-    " get current time (in seconds since epoch)
-    let l:cmd = "python -c \"import time;print int(time.time())\""
-    let l:now_list = systemlist(l:cmd)
-    if v:shell_error | return | endif
-    if type(l:now_list) != type([])
-                \ || len(l:now_list) != 1
-                \ || len(l:now_list[0]) == 0
-        " expected single-item list
-        return
-    endif
-    let l:now = l:now_list[0]
-    " have both time values
-    " - if less than the supplied time then return true
-    let l:diff = l:now - l:last_fetch
-    if l:diff < a:time | return 1 | else | return | endif
-endfunction                                                          " }}}2
 
 " 5.  SNIPPETS                                                         {{{1
 
-" install jhradilek docbook snippets                                   {{{2
-call s:ensureSnippetsAreAvailable(s:vim_home)                        " }}}2
+" use jhradilek docbook snippets                                       {{{2
+if s:have_dnu_functions()
+    if s:ensureJHSnippetsAreAvailable()
+        call s:useJHSnippets()
+    endif
+else
+    echoerr "dn-docbk: unable to load jhradilek docbk plugin"
+endif
 
-" 6.  MAPPINGS AND COMMANDS                                            {{{1
+" 6.  MAPPINGS AND COMMANDS \                                          {{{1
 
-" Mappings:                                                            {{{2
+" Mappings: \                                                          {{{2
 
-" Commands:                                                            {{{2
+" Commands: \                                                          {{{2
 
 " vim: set foldmethod=marker :
 " 7.  CONTROL STATEMENTS                                               {{{1
@@ -259,3 +206,4 @@ call s:ensureSnippetsAreAvailable(s:vim_home)                        " }}}2
 " restore user's cpoptions                                             {{{2
 let &cpo = s:save_cpo    "                                             }}}2
 
+" vim:fdm=marker:

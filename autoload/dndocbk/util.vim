@@ -9,12 +9,6 @@
 if exists('g:loaded_dn_docbk_util_autoload') | finish | endif
 let g:loaded_dn_docbk_util_autoload = 1
 
-" requires plugin to be loaded                                         {{{1
-if !exists('g:loaded_dn_docbk_ftplugin')
-    echoerr "Haven't loaded vim-dn-docbk plugin - check runtimepath"
-    finish
-endif
-
 " disable user's cpoptions                                             {{{1
 let s:save_cpo = &cpo
 set cpo&vim    "                                                       }}}1
@@ -38,7 +32,7 @@ function! dndocbk#util#schemaLocation(type) abort
         endif
         let l:web_schema = 'http://www.docbook.org/xml/5.0/sch/docbook.sch'
     else
-        echoerr "dn-docbk ftplugin: invalid schema type: '" . a:type . "'"
+        echoerr "dn-docbk: invalid schema type: '" . a:type . "'"
         finish
     endif
     " now return user-provided location, if available, otherwise default

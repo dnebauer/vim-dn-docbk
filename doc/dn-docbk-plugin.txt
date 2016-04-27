@@ -44,6 +44,9 @@ This ftplugin requires the |dn-utils-plugin|.
 This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by
 |dn-utils-plugin|.
 
+See |dn-docbk-syntastic| for syntastic-related global variables that
+specify which schema and catalog to use.
+
                                                             *dn-docbk-help*
 This ftplugin contributes to the |dn-utils-plugin| help system (see
 |DNU_Help| for details). In the help system navigate to:

@@ -30,7 +30,7 @@ set cpo&vim
 "   [XML_CATALOG_FILES=*catalog_path*] xmllint --xinclude --postvalid \
 "           --noout --relaxng *schema_path* *xml_file*
 
-function! SyntaxCheckers_xml_xmllint_GetLocList() dict
+function! SyntaxCheckers_docbk_xmllintdbk_GetLocList() dict
     let l:makeprg_options = {}
     " - use standard options from original checker (part of 'args')
     let l:args = ['--xinclude', '--postvalid', '--noout']
@@ -69,7 +69,7 @@ function! SyntaxCheckers_xml_xmllint_GetLocList() dict
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
-            \ 'filetype': 'docbook',
+            \ 'filetype': 'docbk',
             \ 'name': 'xmllintdbk',
             \ 'exec': 'xmllint',
             \ })

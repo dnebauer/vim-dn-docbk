@@ -23,7 +23,7 @@ function! dndocbk#util#schemaLocation(type) abort
     " first, get schema's user location (if available) and default location
     if a:type == 'rng'
         if exists('g:dn_docbk_relaxng_schema')
-            let l:user_schema = g:dbn_docbk_relaxng_schema
+            let l:user_schema = g:dn_docbk_relaxng_schema
         endif
         let l:web_schema = 'http://www.docbook.org/xml/5.0/rng/docbook.rng'
     elseif a:type == 'sch'

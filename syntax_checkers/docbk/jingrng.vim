@@ -18,7 +18,7 @@ set cpo&vim
 " set schema-dependent settings
 let s:schema_type = 'rng'
 let s:schema_location = dndocbk#util#schemaLocation(s:schema_type)
-if ! s:schema_location
+if strlen(s:schema_location) == 0
     echoerr "dn-docbk ftplugin: unable to determine '" . 
                 \ s:schema_type . "' location"
 endif

@@ -48,7 +48,7 @@ endfunction
 " params: nil
 " return: string (path) or 0 if none provided
 function! dndocbk#util#userCatalog() abort
-    if g:dn_docbk_xml_catalog
+    if exists('g:dn_docbk_xml_catalog')
         return g:dn_docbk_xml_catalog
     endif
 endfunction    "                                                       }}}1

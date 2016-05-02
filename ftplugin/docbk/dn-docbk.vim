@@ -79,6 +79,35 @@ let s:jhs_git = s:jhs_dir . '/.git'
 let s:jhs_snippets = s:jhs_dir . '/snippets'
 
 " docbk element data ('g:dn_docbk_element_data')                       {{{2
+" s:loadElementData()                                                  {{{3
+" does:   load variable 'g:dn_docbk_element_data' from
+"         ftplugin data file 'dn-docbk-element-data.vim'
+" params: nil
+" prints: error message if unable to find single copy of data file
+" insert: nil
+" return: whether successfully loaded data [boolean]
+" note:   searches for data file under &runtimepath directories
+function! s:loadElementData()
+    " look for data file
+    let l:file = 'dn-docbk-element-data.vim'
+    let l:search_term = '**/' . l:file
+    let l:found = globpath(&rtp, l:search_term, 1, 1)
+    " load data file if only one found
+    if     len(l:found) == 0  " found no matching files
+        echoerr "dn-docbk: cannot locate data file '" . l:file . "'"
+    elseif len(l:found) == 1  " found one matching file
+        source l:found[0]
+    else  " found multiple matching files
+        echoerr "dn-docbk: found multiple '" . l:file . "' data files"
+    endif
+    " check for loaded variable
+    if exists('g:dn_docbk_element_data') && !empty(g:dn_docbk_element_data)
+        return 1
+    else
+        echoerr "dn-docbk: unable to load docbook element data"
+        return
+    endif
+endfunction  "                                                         }}}3
 call s:loadElementData()  "                                            }}}2
 
 " 4.  FUNCTIONS                                                        {{{1
@@ -111,36 +140,6 @@ function! s:haveDnuFunctions()
         return
     endif
     return 1  " true
-endfunction
-
-" s:loadElementData()                                                  {{{2
-" does:   load variable 'g:dn_docbk_element_data' from
-"         ftplugin data file 'dn-docbk-element-data.vim'
-" params: nil
-" prints: error message if unable to find single copy of data file
-" insert: nil
-" return: whether successfully loaded data [boolean]
-" note:   searches for data file under &runtimepath directories
-function! s:loadElementData()
-    " look for data file
-    let l:file = 'dn-docbk-element-data.vim'
-    let l:search_term = '**/' . l:file
-    let l:found = globpath(&rtp, l:search_term, 1, 1)
-    " load data file if only one found
-    if     len(l:found) == 0  " found no matching files
-        echoerr "dn-docbk: cannot locate data file '" . l:file . "'"
-    elseif len(l:found) == 1  " found one matching file
-        source l:found[0]
-    else  " found multiple matching files
-        echoerr "dn-docbk: found multiple '" . l:file . "' data files"
-    endif
-    " check for loaded variable
-    if exists('g:dn_docbk_element_data') && !empty(g:dn_docbk_element_data)
-        return 1
-    else
-        echoerr "dn-docbk: unable to load docbook element data"
-        return
-    endif
 endfunction
 
 " s:ensureJHSnippetsAreAvailable()                                     {{{2

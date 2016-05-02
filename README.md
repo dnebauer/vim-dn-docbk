@@ -11,10 +11,6 @@ Install using vundle or pathogen.
 Requires
 --------
 
-Pandoc: To generate html and pdf output files.
-
-Lualatex: To generate pdf output files.
-
 Vim plugin: [dn-utils](https://github.com/dnebauer/dn-vim-utils).
 
 System default viewers: html and pdf output files are displayed using default system applications.

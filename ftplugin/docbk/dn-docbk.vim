@@ -11,7 +11,7 @@ let b:loaded_dn_docbk_ftplugin = 1
 
 " ignore user cpoptions                                                {{{2
 let s:save_cpo = &cpo
-set cpo&vim    "                                                       }}}2
+set cpo&vim  "                                                         }}}2
 
 " 2.  SYNTASTIC                                                        {{{1
 
@@ -26,7 +26,7 @@ endif
 
 " select checkers to use                                               {{{2
 " - available checkers are 'xmllintdbk', 'jingrng' and 'jingsch'
-let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']    "           }}}2
+let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']  "             }}}2
 
 " 3.  VARIABLES                                                        {{{1
 
@@ -37,7 +37,7 @@ if !exists('b:dn_help_plugins')
 endif
 if ! count(b:dn_help_plugins, 'docbook')
     call add(b:dn_help_plugins, 'docbook')
-endif                                                                " }}}3
+endif  "                                                               }}}3
 " - add help topics (b:dn_help_topics)                                 {{{3
 if !exists('b:dn_help_topics')
     let b:dn_help_topics = {}
@@ -46,7 +46,7 @@ let b:dn_help_topics['docbook'] = {
             \ 'syntastic' : 'docbk_syntastic', 
             \ 'snippets'  : 'docbk_snippets', 
             \ 'output'    : 'docbk_output',
-            \ }                                                      " }}}3
+            \ }  "                                                     }}}3
 " - add help data for help topics (b:dn_help_data)                     {{{3
 if !exists('b:dn_help_data')
     let b:dn_help_data = {}
@@ -76,18 +76,18 @@ endif
 " vim-docbk (Jaromir Hradilek) snippet directories                     {{{2
 let s:jhs_dir = s:vim_home . '/repos/jhradilek/vim-snippets'
 let s:jhs_git = s:jhs_dir . '/.git'
-let s:jhs_snippets = s:jhs_dir . '/snippets'
+let s:jhs_snippets = s:jhs_dir . '/snippets'  "                        }}}2
 
 " 4.  FUNCTIONS                                                        {{{1
 
-" s:have_dnu_functions()                                               {{{2
+" s:haveDnuFunctions()                                                 {{{2
 " does:   check for required dn-utils functions
 " params: nil
 " prints: error message listing missing functions
 " insert: nil
 " return: whether required vim-dn-utils functions are available [boolean]
 " note:   DNU_LocalGitRepoFetch, DNU_LocalGitRepoUpdatedRecently
-function! s:have_dnu_functions()
+function! s:haveDnuFunctions()
     " functions to check
     let l:fns = [
                 \ '*DNU_LocalGitRepoFetch', 
@@ -181,26 +181,26 @@ function! s:useJHSnippets()
     else
         echoerr 'dn-docbk: unable to find docbook snippets directory'
     endif
-endfunction
+endfunction  "                                                         }}}2
 
 " 5.  SNIPPETS                                                         {{{1
 
 " use jhradilek docbook snippets                                       {{{2
-if s:have_dnu_functions()
+if s:haveDnuFunctions()
     if s:ensureJHSnippetsAreAvailable()
         call s:useJHSnippets()
     endif
 else
     echoerr "dn-docbk: unable to load jhradilek docbk plugin"
-endif
+endif  "                                                               }}}2
 
-" 6.  MAPPINGS AND COMMANDS \                                          {{{1
+" 6.  MAPPINGS AND COMMANDS                                            {{{1
 
 " Mappings: \                                                          {{{2
 
 " Commands: \                                                          {{{2
+                                                                     " }}}2
 
-" vim: set foldmethod=marker :
 " 7.  CONTROL STATEMENTS                                               {{{1
 
 " restore user's cpoptions                                             {{{2

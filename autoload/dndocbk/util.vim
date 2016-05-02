@@ -11,7 +11,7 @@ let g:loaded_dn_docbk_util_autoload = 1
 
 " disable user's cpoptions                                             {{{1
 let s:save_cpo = &cpo
-set cpo&vim    "                                                       }}}1
+set cpo&vim  "                                                         }}}1
 
 " FUNCTIONS:
 
@@ -51,7 +51,7 @@ function! dndocbk#util#userCatalog() abort
     if exists('g:dn_docbk_xml_catalog')
         return g:dn_docbk_xml_catalog
     endif
-endfunction    "                                                       }}}1
+endfunction  "                                                         }}}1
 
 " CONTROL STATEMENTS:
 

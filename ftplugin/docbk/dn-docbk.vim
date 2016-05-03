@@ -91,7 +91,12 @@ function! s:loadElementData()
     " look for data file
     let l:file = 'dn-docbk-element-data.vim'
     let l:search_term = '**/' . l:file
-    let l:found = globpath(&rtp, l:search_term, 1, 1)
+    let l:found_raw = globpath(&rtp, l:search_term, 1, 1)
+    " globpath can produce duplicates
+    let l:found = filter(
+                \ copy(l:found_raw),
+                \ 'index(l:found_raw, v:val, v:key+1) == -1'
+                \ )
     " load data file if only one found
     if     len(l:found) == 0  " found no matching files
         echoerr "dn-docbk: cannot locate data file '" . l:file . "'"

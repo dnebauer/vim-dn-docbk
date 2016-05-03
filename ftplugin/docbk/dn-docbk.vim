@@ -101,7 +101,7 @@ function! s:loadElementData()
     if     len(l:found) == 0  " found no matching files
         echoerr "dn-docbk: cannot locate data file '" . l:file . "'"
     elseif len(l:found) == 1  " found one matching file
-        source l:found[0]
+        execute 'source ' . fnameescape(l:found[0])
     else  " found multiple matching files
         echoerr "dn-docbk: found multiple '" . l:file . "' data files"
     endif

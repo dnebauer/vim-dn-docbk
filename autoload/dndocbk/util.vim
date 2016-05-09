@@ -51,6 +51,39 @@ function! dndocbk#util#userCatalog() abort
     if exists('g:dn_docbk_xml_catalog')
         return g:dn_docbk_xml_catalog
     endif
+endfunction
+
+" dndocbk#util#selectElementWithCompletion()                           {{{1
+" does:   use word completion to assist user to select docbk element
+" params: nil
+" return: string (element name) or 0 if none selected
+function! dndocbk#util#selectElementWithCompletion()
+    " check for required functions                                   " {{{2
+    let l:fns = ['*DNU_SelectWithCompletion']
+    let l:err = 0  " false
+    for l:fn in l:fns
+        if ! exists(l:fn)
+            let l:name = strpart(l:fn, 1)
+            echoerr "dn-docbk: cannot locate function '" . l:name . "'"
+            let l:err = 1  " true
+        endif
+    endfor
+    " get list of docbook elements                                     {{{2
+    let l:elements = []
+    if exists('g:dn_docbk_element_data')
+        let l:elements = keys(g:dn_docbk_element_data)
+        if empty(l:elements)
+            echoerr "dn-docbk: variable 'g:dn_docbk_element_data' is empty"
+            return
+        endif
+    else
+        echoerr "dn-docbk: could not find 'g:dn_docbk_element_data'"
+    endif
+    " select element                                                   {{{2
+    let l:element = DNU_SelectWithCompletion(
+                \ 'element name', 'element names', l:elements)
+    if l:element == "" | return | endif
+    return l:element
 endfunction  "                                                         }}}1
 
 " CONTROL STATEMENTS:

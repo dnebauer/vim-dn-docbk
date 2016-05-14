@@ -56,7 +56,7 @@ endfunction
 " dndocbk#util#selectElementWithCompletion()                           {{{1
 " does:   use word completion to assist user to select docbk element
 " params: nil
-" return: string (element name) or 0 if none selected
+" return: string (element name) or '' if none selected
 function! dndocbk#util#selectElementWithCompletion()
     " check for required functions                                   " {{{2
     let l:fns = ['*DNU_SelectWithCompletion']
@@ -82,7 +82,6 @@ function! dndocbk#util#selectElementWithCompletion()
     " select element                                                   {{{2
     let l:element = DNU_SelectWithCompletion(
                 \ 'element name', 'element names', l:elements)
-    if l:element == "" | return | endif
     return l:element
 endfunction  "                                                         }}}1
 

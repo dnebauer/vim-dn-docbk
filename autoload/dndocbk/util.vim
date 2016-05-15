@@ -56,10 +56,10 @@ endfunction
 " dndocbk#util#selectElementWithCompletion()                           {{{1
 " does:   use word completion to assist user to select docbk element
 " params: nil
-" return: string (element name) or '' if none selected
+" return: string (element name) or 0 if none selected
 function! dndocbk#util#selectElementWithCompletion()
     " check for required functions                                   " {{{2
-    let l:fns = ['*DNU_SelectWithCompletion']
+    let l:fns = ['*DNU_ConsoleSelect']
     let l:err = 0  " false
     for l:fn in l:fns
         if ! exists(l:fn)
@@ -80,8 +80,9 @@ function! dndocbk#util#selectElementWithCompletion()
         echoerr "dn-docbk: could not find 'g:dn_docbk_element_data'"
     endif
     " select element                                                   {{{2
-    let l:element = DNU_SelectWithCompletion(
-                \ 'element name', 'element names', l:elements)
+    let l:element = DNU_ConsoleSelect(
+                \ 'element name', 'element names',
+                \ l:elements, 'filter')
     return l:element
 endfunction  "                                                         }}}1
 

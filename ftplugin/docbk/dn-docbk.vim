@@ -117,17 +117,6 @@ call s:loadElementData()  "                                            }}}2
 
 " 4.  FUNCTIONS                                                        {{{1
 
-" DNDBK_SelectElement()                                                {{{2
-" does:   select docbook element
-" params: nil
-" prints: error message
-" insert: nil
-" return: docbook element name [string]
-" note:   uses g:dn_docbk_element_data variable
-function! DNDBK_SelectElement()
-    echo dndocbk#util#selectElementWithCompletion()
-endfunction
-
 " s:haveDnuFunctions()                                                 {{{2
 " does:   check for required dn-utils functions
 " params: nil

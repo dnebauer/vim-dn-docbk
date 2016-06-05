@@ -74,7 +74,7 @@ elseif has('unix')
 endif
 
 " vim-docbk (Jaromir Hradilek) snippet directories                     {{{2
-let s:jhs_dir = s:vim_home . '/repos/jhradilek/vim-snippets'
+let s:jhs_dir = s:vim_home . '/repos/github.com/jhradilek/vim-snippets'
 let s:jhs_git = s:jhs_dir . '/.git'
 let s:jhs_snippets = s:jhs_dir . '/snippets'
 

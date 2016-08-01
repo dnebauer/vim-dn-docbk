@@ -15,15 +15,6 @@ set cpoptions&vim  "                                                   }}}2
 
 " 2.  SYNTASTIC                                                        {{{1
 
-" ensure filetype is set to 'docbk'                                    {{{2
-if exists('g:syntastic_extra_filetypes')
-    if ! count(g:syntastic_extra_filetypes, 'docbk')
-        call add(g:syntastic_extra_filetypes, 'docbk')
-    endif
-else
-    let g:syntastic_extra_filetypes = ['docbk']
-endif
-
 " select checkers to use                                               {{{2
 " - available checkers are 'xmllintdbk', 'jingrng' and 'jingsch'
 let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']  "             }}}2

@@ -49,7 +49,8 @@ specify which schema and catalog to use.
 
                                                             *dn-docbk-help*
 This ftplugin contributes to the vim-dn-utils help system (see
-|dn#util#help()| for details). In the help system navigate to: vim -> docbook.
+|dn#util#help()| for details). In the help system navigate to:
+vim -> docbook.
 -------------------------------------------------------------------------
                                                           *dn-docbk-detect*
 6. Detecting docbook files

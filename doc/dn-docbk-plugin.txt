@@ -9,11 +9,10 @@ Dn Docbk Filetype Plugin
 
      1. Contents .............................. |dn-docbk-contents|
      2. Overview .............................. |dn-docbk-overview|
-     3. Installation .......................... |dn-docbk-install|
-     4. Dependencies .......................... |dn-docbk-dependencies|
-     5. Variables ............................. |dn-docbk-variables|
-     6. Detecting docbook files ............... |dn-docbk-detect|
-     7. Syntastic ............................. |dn-docbk-syntastic|
+     3. Dependencies .......................... |dn-docbk-dependencies|
+     4. Variables ............................. |dn-docbk-variables|
+     5. Detecting docbook files ............... |dn-docbk-detect|
+     6. Syntastic ............................. |dn-docbk-syntastic|
 -------------------------------------------------------------------------
                                                         *dn-docbk-overview*
 2. Overview
@@ -25,21 +24,13 @@ All public functions in this library are global. They have the prefix
 
 Some mappings are also provided.
 -------------------------------------------------------------------------
-                                                         *dn-docbk-install*
-3. Installation
-
-Use vundle, neobundle and like installers to install this plugin. For
-neobundle, for example, you include in ~/.vimrc the following line:
-
-    NeoBundle 'dnebauer/vim-dn-docbk'
--------------------------------------------------------------------------
                                                     *dn-docbk-dependencies*
-4. Dependencies
+3. Dependencies
 
 This ftplugin requires the vim-dn-utils plugin (see |dn-utils-plugin.txt|).
 -------------------------------------------------------------------------
                                                        *dn-docbk-variables*
-5. Variables
+4. Variables
 
 This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by the
 vim-dn-utils plugin (see |dn-utils-plugin.txt|.
@@ -53,7 +44,7 @@ This ftplugin contributes to the vim-dn-utils help system (see
 vim -> docbook.
 -------------------------------------------------------------------------
                                                           *dn-docbk-detect*
-6. Detecting docbook files
+5. Detecting docbook files
 
 This plugin sets the filetype to "docbk" if the file has an ".xml"
 extension and a root element with a docbook5 xmlns attribute.

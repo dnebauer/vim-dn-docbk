@@ -10,8 +10,8 @@ if exists('b:loaded_dn_docbk_ftplugin') | finish | endif
 let b:loaded_dn_docbk_ftplugin = 1
 
 " ignore user cpoptions                                                {{{2
-let s:save_cpo = &cpo
-set cpo&vim  "                                                         }}}2
+let s:save_cpo = &cpoptions
+set cpoptions&vim  "                                                   }}}2
 
 " 2.  SYNTASTIC                                                        {{{1
 
@@ -91,7 +91,7 @@ function! s:loadElementData()
     " look for data file
     let l:file = 'dn-docbk-element-data.vim'
     let l:search_term = '**/' . l:file
-    let l:found_raw = globpath(&rtp, l:search_term, 1, 1)
+    let l:found_raw = globpath(&runtimepath, l:search_term, 1, 1)
     " globpath can produce duplicates
     let l:found = filter(
                 \ copy(l:found_raw),
@@ -109,7 +109,7 @@ function! s:loadElementData()
     if exists('g:dn_docbk_element_data') && !empty(g:dn_docbk_element_data)
         return 1
     else
-        echoerr "dn-docbk: unable to load docbook element data"
+        echoerr 'dn-docbk: unable to load docbook element data'
         return
     endif
 endfunction  "                                                         }}}3
@@ -242,6 +242,7 @@ endfunction  "                                                         }}}2
 " 7.  CONTROL STATEMENTS                                               {{{1
 
 " restore user's cpoptions                                             {{{2
-let &cpo = s:save_cpo    "                                             }}}2
-
+let &cpoptions = s:save_cpo
+unlet s:save_cpo                                                     " }}}2
+                                                                     " }}}1
 " vim:fdm=marker:

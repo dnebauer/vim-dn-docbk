@@ -10,8 +10,8 @@ if exists('g:loaded_dn_docbk_util_autoload') | finish | endif
 let g:loaded_dn_docbk_util_autoload = 1
 
 " disable user's cpoptions                                             {{{1
-let s:save_cpo = &cpo
-set cpo&vim  "                                                         }}}1
+let s:save_cpo = &cpoptions
+set cpoptions&vim  "                                                   }}}1
 
 " FUNCTIONS:
 
@@ -58,7 +58,7 @@ endfunction
 " params: method - selection method [default='filter', optional,
 "                  values='complete'|'filter']
 " return: string (element name) or '' if none selected
-function! dndocbk#util#selectElement(...)
+function! dndocbk#util#selectElement(...) abort
     " check for required functions                                     {{{2
     let l:fns = ['*dn#util#consoleSelect']
     let l:err = 0  " false
@@ -107,6 +107,6 @@ endfunction                                                          " }}}1
 " CONTROL STATEMENTS:
 
 " restore user's cpoptions                                             {{{1
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo                                          " }}}1
 
 " vim:fdm=marker:

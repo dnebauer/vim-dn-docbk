@@ -1,7 +1,7 @@
 *dn-docbk-ftplugin.txt*    For Vim version 7.4    Last changed: 2015 Dec 22
 
 Filetype plugin for docbook                             *dn-docbk-ftplugin*
-                                                             *DND_ftplugin*
+
 Dn Docbk Filetype Plugin
 -------------------------------------------------------------------------
                                                         *dn-docbk-contents*
@@ -20,8 +20,8 @@ Dn Docbk Filetype Plugin
 
 An auxiliary filetype plugin for docbook xml files.
 
-All functions in this library are global. They all have the prefix 'DND_'
-to try and avoid namespace collisions.
+All public functions in this library are global. They have the prefix
+"dndocbk#util#" to try and avoid namespace collisions.
 
 Some mappings are also provided.
 -------------------------------------------------------------------------
@@ -36,30 +36,29 @@ neobundle, for example, you include in ~/.vimrc the following line:
                                                     *dn-docbk-dependencies*
 4. Dependencies
 
-This ftplugin requires the |dn-utils-plugin|.
+This ftplugin requires the vim-dn-utils plugin (see |dn-utils-plugin.txt|).
 -------------------------------------------------------------------------
                                                        *dn-docbk-variables*
 5. Variables
 
-This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by
-|dn-utils-plugin|.
+This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by the
+vim-dn-utils plugin (see |dn-utils-plugin.txt|.
 
 See |dn-docbk-syntastic| for syntastic-related global variables that
 specify which schema and catalog to use.
 
                                                             *dn-docbk-help*
-This ftplugin contributes to the |dn-utils-plugin| help system (see
-|dn#util#help| for details). In the help system navigate to:
-vim -> docbook.
+This ftplugin contributes to the vim-dn-utils help system (see
+|dn#util#help()| for details). In the help system navigate to: vim -> docbook.
 -------------------------------------------------------------------------
                                                           *dn-docbk-detect*
 6. Detecting docbook files
 
-This plugin sets the filetype to 'docbk' if the file has an '.xml'
+This plugin sets the filetype to "docbk" if the file has an ".xml"
 extension and a root element with a docbook5 xmlns attribute.
 
-Valid root elements are 'book', 'article', 'bibliography', 'chapter',
-'index' or 'part'.
+Valid root elements are "book", "article", "bibliography", "chapter",
+"index" or "part".
 
 Note that the element opening tag and xmlns attribute must be on the same
 line.
@@ -69,15 +68,15 @@ The following is an example:
     <article xmlns="http://docbook.org/ns/docbook" version="5.0"
         xml:lang="en">
 -------------------------------------------------------------------------
-                                                       *dn-docbk-syntastic*
-                                             *jingrng*  *jingsch*  *xmllingdbk*
+                                                      *dn-docbk-syntastic*
+                                            *jingrng*  *jingsch*  *xmllingdbk*
 6. Syntastic
 
 Three docbook syntax checkers are provided by the dn-docbk ftplugin:
 
-    'xmllintdbk'        docbook RelaxNG schema
-    'jingrng'           docbook RelaxNG schema
-    'jingsch'           docbook Schematron schema
+    "xmllintdbk"        docbook RelaxNG schema
+    "jingrng"           docbook RelaxNG schema
+    "jingsch"           docbook Schematron schema
 
 For each checker the user can use global variables to specify a schema
 and catalog to use:
@@ -92,7 +91,7 @@ If no schema is specified, the checker uses the following values:
     Schematron schema   http://www.docbook.org/xml/5.0/sch/docbook.sch
     xml catalog         default catalog, see xmlcatalog(1)
 
-By default, syntastic is set to use the 'jingrng' and 'jingsch' checkers
+By default, syntastic is set to use the "jingrng" and "jingsch" checkers
 (by setting the g:syntastic_docbk_checkers variable). This can be
 overridden by the user by setting the b:syntastic_docbk_checkers variable
 (see |'b:syntastic_checkers'|).

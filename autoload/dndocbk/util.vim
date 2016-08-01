@@ -21,12 +21,12 @@ set cpo&vim  "                                                         }}}1
 " return: string (path)
 function! dndocbk#util#schemaLocation(type) abort
     " first, get schema's user location (if available) and default location
-    if a:type == 'rng'
+    if a:type ==# 'rng'
         if exists('g:dn_docbk_relaxng_schema')
             let l:user_schema = g:dn_docbk_relaxng_schema
         endif
         let l:web_schema = 'http://www.docbook.org/xml/5.0/rng/docbook.rng'
-    elseif a:type == 'sch'
+    elseif a:type ==# 'sch'
         if exists('g:dn_docbk_schematron_schema')
             let l:user_schema = g:dn_docbk_schematron_schema
         endif
@@ -60,7 +60,7 @@ endfunction
 " return: string (element name) or '' if none selected
 function! dndocbk#util#selectElement(...)
     " check for required functions                                     {{{2
-    let l:fns = ['*DNU_ConsoleSelect']
+    let l:fns = ['*dn#util#consoleSelect']
     let l:err = 0  " false
     for l:fn in l:fns
         if ! exists(l:fn)
@@ -69,36 +69,36 @@ function! dndocbk#util#selectElement(...)
             let l:err = 1  " true
         endif
     endfor
-    if l:err | return "" | endif
+    if l:err | return '' | endif
     " check argument                                                   {{{2
     let l:method = 'filter'
     if a:0 >= 1
         if a:0 > 1
             echoerr 'Ignoring extra arguments: ' . join(a:000[1:], ', ')
         endif
-        if a:1 =~ '^complete$\|^filter$'
+        if a:1 =~# '^complete$\|^filter$'
             let l:method = a:1
         else
             echoerr "Invalid method: '" . a:1 . "'"
-            return ""
+            return ''
         endif
     endif
     " get list of docbook elements                                     {{{2
     let l:elements = []
     if ! exists('g:dn_docbk_element_data')
         echoerr "dn-docbk: could not find 'g:dn_docbk_element_data'"
-        return ""
+        return ''
     endif
     let l:elements = keys(g:dn_docbk_element_data)
     if empty(l:elements)
         echoerr "dn-docbk: variable 'g:dn_docbk_element_data' is empty"
-        return ""
+        return ''
     endif
     " select element                                                   {{{2
-    let l:element = DNU_ConsoleSelect(
-                \ 'element name', 
-                \ 'element names', 
-                \ l:elements, 
+    let l:element = dn#util#consoleSelect(
+                \ 'element name',
+                \ 'element names',
+                \ l:elements,
                 \ l:method
                 \ )
     return l:element

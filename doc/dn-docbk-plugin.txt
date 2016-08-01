@@ -49,7 +49,7 @@ specify which schema and catalog to use.
 
                                                             *dn-docbk-help*
 This ftplugin contributes to the |dn-utils-plugin| help system (see
-|DNU_Help| for details). In the help system navigate to:
+|dn#util#help| for details). In the help system navigate to:
 vim -> docbook.
 -------------------------------------------------------------------------
                                                           *dn-docbk-detect*
@@ -78,7 +78,7 @@ Three docbook syntax checkers are provided by the dn-docbk ftplugin:
     'xmllintdbk'        docbook RelaxNG schema
     'jingrng'           docbook RelaxNG schema
     'jingsch'           docbook Schematron schema
-    
+
 For each checker the user can use global variables to specify a schema
 and catalog to use:
 

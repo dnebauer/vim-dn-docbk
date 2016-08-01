@@ -42,25 +42,25 @@ endif  "                                                               }}}3
 if !exists('b:dn_help_topics')
     let b:dn_help_topics = {}
 endif
-let b:dn_help_topics['docbook'] = { 
-            \ 'syntastic' : 'docbk_syntastic', 
-            \ 'snippets'  : 'docbk_snippets', 
+let b:dn_help_topics['docbook'] = {
+            \ 'syntastic' : 'docbk_syntastic',
+            \ 'snippets'  : 'docbk_snippets',
             \ 'output'    : 'docbk_output',
             \ }  "                                                     }}}3
 " - add help data for help topics (b:dn_help_data)                     {{{3
 if !exists('b:dn_help_data')
     let b:dn_help_data = {}
 endif
-let b:dn_help_data['docbk_snippets'] = [ 
-            \ 'Snippets:', 
-            \ '', 
-            \ ' ', '', 
+let b:dn_help_data['docbk_snippets'] = [
+            \ 'Snippets:',
+            \ '',
+            \ ' ', '',
             \ 'Stub',
             \ ]
-let b:dn_help_data['docbk_output'] = [ 
-            \ 'Output:', 
-            \ '', 
-            \ ' ', '', 
+let b:dn_help_data['docbk_output'] = [
+            \ 'Output:',
+            \ '',
+            \ ' ', '',
             \ 'Stub',
             \ ]
 
@@ -123,12 +123,12 @@ call s:loadElementData()  "                                            }}}2
 " prints: error message listing missing functions
 " insert: nil
 " return: whether required vim-dn-utils functions are available [boolean]
-" note:   DNU_LocalGitRepoFetch, DNU_LocalGitRepoUpdatedRecently
+" note:   dn#util#localGitRepoFetch, dn#util#localGitRepoUpdatedRecently
 function! s:haveDnuFunctions()
     " functions to check
     let l:fns = [
-                \ '*DNU_LocalGitRepoFetch', 
-                \ '*DNU_LocalGitRepoUpdatedRecently'
+                \ '*dn#util#localGitRepoFetch',
+                \ '*dn#util#localGitRepoUpdatedRecently'
                 \ ]
     " check for functions
     let l:err = 0  " false
@@ -175,7 +175,7 @@ function! s:ensureJHSnippetsAreAvailable()
         endif  " v:shell_error
         " perform initial fetch operation to ensure existence
         " of '.git/FETCH_HEAD'
-        if ! DNU_LocalGitRepoFetch(s:jhs_git)
+        if ! dn#util#localGitRepoFetch(s:jhs_git)
             echoerr 'dn-docbk: post-install fetch failed'
             return
         endif
@@ -187,7 +187,8 @@ function! s:ensureJHSnippetsAreAvailable()
     "  - must have been error message generated above
     if ! isdirectory(s:jhs_git) | return | endif
     " decide whether need to update
-    if DNU_LocalGitRepoUpdatedRecently(s:jhs_dir, 604800)  " try to update
+    " -  try to update
+    if dn#util#localGitRepoUpdatedRecently(s:jhs_dir, 604800)
         " even if fail to update will exit with success code
         " - user will have to use possibly outdated snippets
         if ! executable('git')  " need git to update
@@ -195,7 +196,7 @@ function! s:ensureJHSnippetsAreAvailable()
             echoerr 'dn-docbk: unable to ensure dbk snippets are up to date'
             return b:dn_true
         endif
-        if ! DNU_LocalGitRepoFetch(s:jhs_git, 'vim-docbk: ')
+        if ! dn#util#localGitRepoFetch(s:jhs_git, 'vim-docbk: ')
             return b:dn_true
         endif
     endif  " l:do_fetch

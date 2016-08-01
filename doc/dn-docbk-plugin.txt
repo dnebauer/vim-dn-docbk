@@ -1,21 +1,15 @@
-*dn-docbk-ftplugin.txt*    For Vim version 7.4    Last changed: 2015 Dec 22
+*dn-docbk-ftplugin.txt*	For Vim version 7.4	Last changed: 2015 Dec 22
 
-Filetype plugin for docbook                             *dn-docbk-ftplugin*
+Filetype plugin for docbook                              *dn-docbk-ftplugin*
 
-Dn Docbk Filetype Plugin
--------------------------------------------------------------------------
-                                                        *dn-docbk-contents*
-1. Contents
+1.  Overview                      |dn-docbk-overview|
+2.  Dependencies                  |dn-docbk-dependencies|
+3.  Variables                     |dn-docbk-variables|
+4.  Detecting docbook files       |dn-docbk-detect|
+5.  Syntastic                     |dn-docbk-syntastic|
 
-     1. Contents .............................. |dn-docbk-contents|
-     2. Overview .............................. |dn-docbk-overview|
-     3. Dependencies .......................... |dn-docbk-dependencies|
-     4. Variables ............................. |dn-docbk-variables|
-     5. Detecting docbook files ............... |dn-docbk-detect|
-     6. Syntastic ............................. |dn-docbk-syntastic|
--------------------------------------------------------------------------
-                                                        *dn-docbk-overview*
-2. Overview
+==============================================================================
+1. Overview                                              *dn-docbk-overview*
 
 An auxiliary filetype plugin for docbook xml files.
 
@@ -23,14 +17,14 @@ All public functions in this library are global. They have the prefix
 "dndocbk#util#" to try and avoid namespace collisions.
 
 Some mappings are also provided.
--------------------------------------------------------------------------
-                                                    *dn-docbk-dependencies*
-3. Dependencies
+
+==============================================================================
+2. Dependencies                                      *dn-docbk-dependencies*
 
 This ftplugin requires the vim-dn-utils plugin (see |dn-utils-plugin.txt|).
--------------------------------------------------------------------------
-                                                       *dn-docbk-variables*
-4. Variables
+
+==============================================================================
+3. Variables                                            *dn-docbk-variables*
 
 This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by the
 vim-dn-utils plugin (see |dn-utils-plugin.txt|.
@@ -38,13 +32,13 @@ vim-dn-utils plugin (see |dn-utils-plugin.txt|.
 See |dn-docbk-syntastic| for syntastic-related global variables that
 specify which schema and catalog to use.
 
-                                                            *dn-docbk-help*
+                                                             *dn-docbk-help*
 This ftplugin contributes to the vim-dn-utils help system (see
 |dn#util#help()| for details). In the help system navigate to:
 vim -> docbook.
--------------------------------------------------------------------------
-                                                          *dn-docbk-detect*
-5. Detecting docbook files
+
+==============================================================================
+4. Detecting docbook files                                 *dn-docbk-detect*
 
 This plugin sets the filetype to "docbk" if the file has an ".xml"
 extension and a root element with a docbook5 xmlns attribute.
@@ -59,33 +53,37 @@ The following is an example:
 
     <article xmlns="http://docbook.org/ns/docbook" version="5.0"
         xml:lang="en">
--------------------------------------------------------------------------
-                                                      *dn-docbk-syntastic*
-                                            *jingrng*  *jingsch*  *xmllingdbk*
-6. Syntastic
+
+==============================================================================
+                                             *xmllingdbk* *dn-docbk-syntastic*
+5. Syntastic                                               *jingrng* *jingsch*
 
 Three docbook syntax checkers are provided by the dn-docbk ftplugin:
 
-    "xmllintdbk"        docbook RelaxNG schema
-    "jingrng"           docbook RelaxNG schema
-    "jingsch"           docbook Schematron schema
+        xmllintdbk    docbook RelaxNG schema
+        jingrng       docbook RelaxNG schema
+        jingsch       docbook Schematron schema
 
+                                              *g:dn_docbk_schematron_schema*
+                        *g:dn_docbk_relaxng_schema* *g:dn_docbook_xml_catalog*
 For each checker the user can use global variables to specify a schema
 and catalog to use:
 
-    RelaxNG schema      g:dn_docbk_relaxng_schema
-    Schematron schema   g:dn_docbk_schematron_schema
-    xml catalog         g:dn_docbook_xml_catalog
+        RelaxNG schema       g:dn_docbk_relaxng_schema
+        Schematron schema    g:dn_docbk_schematron_schema
+        xml catalog          g:dn_docbook_xml_catalog
 
 If no schema is specified, the checker uses the following values:
 
     RelaxNG schema      http://www.docbook.org/xml/5.0/rng/docbook.rng
     Schematron schema   http://www.docbook.org/xml/5.0/sch/docbook.sch
-    xml catalog         default catalog, see xmlcatalog(1)
+    xml catalog         default catalog (see xmlcatalog man page)
 
-By default, syntastic is set to use the "jingrng" and "jingsch" checkers
-(by setting the g:syntastic_docbk_checkers variable). This can be
-overridden by the user by setting the b:syntastic_docbk_checkers variable
-(see |'b:syntastic_checkers'|).
--------------------------------------------------------------------------
- vim:tw=78:fo=tcq2:ts=4:ft=help:
+                                               *g:syntastic_docbk_checkers* 
+By default, |syntastic| is set to use the "jingrng" and "jingsch" checkers by
+setting the "g:syntastic_docbk_checkers" variable (see
+|'g:syntastic_<filetype>_checkers'|). This can be overridden by the user by
+setting the "b:syntastic_docbk_checkers" variable (see
+|'b:syntastic_checkers'|).
+
+ vim:tw=78:norl:ts=8:ft=help:

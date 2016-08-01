@@ -224,13 +224,13 @@ endfunction  "                                                         }}}2
 " 5.  SNIPPETS                                                         {{{1
 
 " use jhradilek docbook snippets                                       {{{2
-if s:haveDnuFunctions()
-    if s:ensureJHSnippetsAreAvailable()
-        call s:useJHSnippets()
-    endif
-else
-    echoerr "dn-docbk: unable to load jhradilek docbk plugin"
-endif  "                                                               }}}2
+"if s:haveDnuFunctions()
+"    if s:ensureJHSnippetsAreAvailable()
+"        call s:useJHSnippets()
+"    endif
+"else
+"    echoerr 'dn-docbk: unable to load jhradilek docbk plugin'
+"endif  "                                                               }}}2
 
 " 6.  MAPPINGS AND COMMANDS                                            {{{1
 

@@ -1,6 +1,5 @@
 " Title:   Vim library for vim-dn-docbk filetype plugin
 " Author:  DavidNebauer <davidnebauer[AT]hotkey[DOT]net[DOT]au>
-" Licence: Public domain
 " URL:     https://github.com/dnebauer/vim-dn-docbk
 
 " CONTROL STATEMENTS:

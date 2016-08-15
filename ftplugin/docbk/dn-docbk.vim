@@ -1,7 +1,6 @@
 " Function:    Vim ftplugin for docbk
 " Last Change: 2016-04-27
 " Maintainer:  David Nebauer <david@nebauer.org>
-" License:     Public domain
 
 " 1.  CONTROL STATEMENTS                                               {{{1
 

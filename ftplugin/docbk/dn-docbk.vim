@@ -21,33 +21,33 @@ let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']  "             }}}2
 " 3.  VARIABLES                                                        {{{1
 
 " help                                                                 {{{2
-" - add to plugins list (b:dn_help_plugins)                            {{{3
-if !exists('b:dn_help_plugins')
-    let b:dn_help_plugins = {}
+" - add to plugins list (g:dn_help_plugins)                            {{{3
+if !exists('g:dn_help_plugins')
+    let g:dn_help_plugins = {}
 endif
-if ! count(b:dn_help_plugins, 'docbook')
-    call add(b:dn_help_plugins, 'docbook')
+if ! count(g:dn_help_plugins, 'docbook')
+    call add(g:dn_help_plugins, 'docbook')
 endif  "                                                               }}}3
-" - add help topics (b:dn_help_topics)                                 {{{3
-if !exists('b:dn_help_topics')
-    let b:dn_help_topics = {}
+" - add help topics (g:dn_help_topics)                                 {{{3
+if !exists('g:dn_help_topics')
+    let g:dn_help_topics = {}
 endif
-let b:dn_help_topics['docbook'] = {
+let g:dn_help_topics['docbook'] = {
             \ 'syntastic' : 'docbk_syntastic',
             \ 'snippets'  : 'docbk_snippets',
             \ 'output'    : 'docbk_output',
             \ }  "                                                     }}}3
-" - add help data for help topics (b:dn_help_data)                     {{{3
-if !exists('b:dn_help_data')
-    let b:dn_help_data = {}
+" - add help data for help topics (g:dn_help_data)                     {{{3
+if !exists('g:dn_help_data')
+    let g:dn_help_data = {}
 endif
-let b:dn_help_data['docbk_snippets'] = [
+let g:dn_help_data['docbk_snippets'] = [
             \ 'Snippets:',
             \ '',
             \ ' ', '',
             \ 'Stub',
             \ ]
-let b:dn_help_data['docbk_output'] = [
+let g:dn_help_data['docbk_output'] = [
             \ 'Output:',
             \ '',
             \ ' ', '',

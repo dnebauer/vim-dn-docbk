@@ -26,7 +26,7 @@ This ftplugin requires the vim-dn-utils plugin (see |dn-utils-plugin.txt|).
 ==============================================================================
 3. Variables                                            *dn-docbk-variables*
 
-This ftplugin uses the |b:dn-true| and |b:dn-false| variables provided by the
+This ftplugin uses the |g:dn-true| and |g:dn-false| variables provided by the
 vim-dn-utils plugin (see |dn-utils-plugin.txt|.
 
 See |dn-docbk-syntastic| for syntastic-related global variables that

@@ -7,13 +7,13 @@
 " See for details on how to add an external Syntastic checker:
 " https://github.com/scrooloose/syntastic/wiki/Syntax-Checker-Guide#external
 
-if exists("g:loaded_syntastic_docbk_jingrng_checker")
+if exists('g:loaded_syntastic_docbk_jingrng_checker')
     finish
 endif
 let g:loaded_syntastic_docbk_jingrng_checker = 1
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 " set schema-dependent settings
 let s:schema_type = 'rng'
@@ -24,7 +24,8 @@ if strlen(s:schema_location) == 0
 endif
 let s:check_name = 'jing' . s:schema_type
 
-" jing command structure is: 'jing [-C *catalog_path*] *schema_path* *xml_path*'
+" jing command structure is:
+"   'jing [-C *catalog_path*] *schema_path* *xml_path*'
 
 function! SyntaxCheckers_docbk_jingrng_GetLocList() dict
     let s:args = []
@@ -32,8 +33,8 @@ function! SyntaxCheckers_docbk_jingrng_GetLocList() dict
     let s:user_catalog = dndocbk#util#userCatalog()
     if s:user_catalog
         call extend(s:args, ['-C', s:user_catalog])
-        unlet s:catalog
     endif
+    unlet s:user_catalog
     " add schema
     call add(s:args, s:schema_location)
 
@@ -65,5 +66,5 @@ call g:SyntasticRegistry.CreateAndRegisterChecker({
             \ })
 unlet s:check_name
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo
 unlet s:save_cpo

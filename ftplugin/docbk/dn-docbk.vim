@@ -1,34 +1,36 @@
 " Function:    Vim ftplugin for docbk
-" Last Change: 2016-04-27
+" Last Change: 2016-10-29
 " Maintainer:  David Nebauer <david@nebauer.org>
 
-" 1.  CONTROL STATEMENTS                                               {{{1
+" CONTROL STATEMENTS:    {{{1
 
-" only load once                                                       {{{2
+" only load once    {{{2
 if exists('b:loaded_dn_docbk_ftplugin') | finish | endif
 let b:loaded_dn_docbk_ftplugin = 1
 
-" ignore user cpoptions                                                {{{2
+" ignore user cpoptions    {{{2
 let s:save_cpo = &cpoptions
-set cpoptions&vim  "                                                   }}}2
+set cpoptions&vim  "    }}}2
 
-" 2.  SYNTASTIC                                                        {{{1
+" LINTING ENGINES:    {{{1
 
-" select checkers to use                                               {{{2
-" - available checkers are 'xmllintdbk', 'jingrng' and 'jingsch'
-let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']  "             }}}2
+" select checkers to use    {{{2
+" - syntastic    {{{3
+"   . available checkers ('xmllintdbk', 'jingrng' and 'jingsch') are
+"     defined in the 'syntax_checkers/docbk' directory of this plugin
+let g:syntastic_docbk_checkers = ['jingrng', 'jingsch']  "    }}}3
 
-" 3.  VARIABLES                                                        {{{1
+" VARIABLES:    {{{1
 
-" help                                                                 {{{2
-" - add to plugins list (g:dn_help_plugins)                            {{{3
+" help    {{{2
+" - add to plugins list (g:dn_help_plugins)    {{{3
 if !exists('g:dn_help_plugins')
     let g:dn_help_plugins = {}
 endif
 if ! count(g:dn_help_plugins, 'docbook')
     call add(g:dn_help_plugins, 'docbook')
-endif  "                                                               }}}3
-" - add help topics (g:dn_help_topics)                                 {{{3
+endif  "    }}}3
+" - add help topics (g:dn_help_topics)    {{{3
 if !exists('g:dn_help_topics')
     let g:dn_help_topics = {}
 endif
@@ -36,8 +38,8 @@ let g:dn_help_topics['docbook'] = {
             \ 'syntastic' : 'docbk_syntastic',
             \ 'snippets'  : 'docbk_snippets',
             \ 'output'    : 'docbk_output',
-            \ }  "                                                     }}}3
-" - add help data for help topics (g:dn_help_data)                     {{{3
+            \ }  "    }}}3
+" - add help data for help topics (g:dn_help_data)    {{{3
 if !exists('g:dn_help_data')
     let g:dn_help_data = {}
 endif
@@ -54,7 +56,7 @@ let g:dn_help_data['docbk_output'] = [
             \ 'Stub',
             \ ]
 
-" os-dependent (os, vim_home, vimrc)                                   {{{2
+" os-dependent (os, vim_home, vimrc)    {{{2
 if has('win32') || has ('win64')
     let s:os = 'win'
     let s:vim_home = $HOME . '/vimfiles'
@@ -63,8 +65,8 @@ elseif has('unix')
     let s:vim_home = $HOME . '/.vim'
 endif
 
-" docbk element data ('g:dn_docbk_element_data')                       {{{2
-" s:loadElementData()                                                  {{{3
+" docbk element data ('g:dn_docbk_element_data')    {{{2
+" s:loadElementData()    {{{3
 " does:   load variable 'g:dn_docbk_element_data' from
 "         ftplugin data file 'dn-docbk-element-data.vim'
 " params: nil
@@ -97,20 +99,14 @@ function! s:loadElementData()
         echoerr 'dn-docbk: unable to load docbook element data'
         return
     endif
-endfunction  "                                                         }}}3
-call s:loadElementData()  "                                            }}}2
+endfunction  "    }}}3
+call s:loadElementData()  "    }}}2
 
-" 4.  MAPPINGS AND COMMANDS                                            {{{1
+" CONTROL STATEMENTS:    {{{1
 
-" Mappings: \                                                          {{{2
-
-" Commands: \                                                          {{{2
-                                                                     " }}}2
-
-" 5.  CONTROL STATEMENTS                                               {{{1
-
-" restore user's cpoptions                                             {{{2
+" restore user's cpoptions    {{{2
 let &cpoptions = s:save_cpo
-unlet s:save_cpo                                                     " }}}2
-                                                                     " }}}1
+unlet s:save_cpo                                                     "    }}}2
+" }}}1
+
 " vim:fdm=marker:

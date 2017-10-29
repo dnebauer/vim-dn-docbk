@@ -18,8 +18,8 @@ if exists('g:loaded_syntastic_docbk_xmllintdbk_checker')
 endif
 let g:loaded_syntastic_docbk_xmllintdbk_checker = 1
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 " You can use a local installation of schemas to significantly speed up
 " validation and allow you to validate XML data without network access,
@@ -74,7 +74,7 @@ call g:SyntasticRegistry.CreateAndRegisterChecker({
             \ 'exec': 'xmllint',
             \ })
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo
 unlet s:save_cpo
 
 " vim: set sw=4 sts=4 et fdm=marker:

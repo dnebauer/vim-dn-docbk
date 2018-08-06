@@ -1,0 +1,83 @@
+*dn-docbk.txt*	Auxiliary ftplugin for docbook xml
+David Nebauer                                                       *dn-docbk*
+
+==============================================================================
+CONTENTS                                                   *dn-docbk-contents*
+  1. Introduction.............................................|dn-docbk-intro|
+  2. Functions............................................|dn-docbk-functions|
+  3. Variables.................................................|dn-docbk-vars|
+
+==============================================================================
+INTRODUCTION                                                  *dn-docbk-intro*
+
+An auxiliary filetype plugin for docbook xml files.
+
+All public functions in this library are global. They have the prefix
+"dn#docbk#" to try and avoid namespace collisions.
+
+This ftplugin requires the |dn-utils| plugin.
+
+FILETYPE DETECTION
+
+This plugin sets the filetype to "docbk" if the file has an ".xml" extension
+and a root element with a docbook5 xmlns attribute. Valid root elements are
+"book", "article", "bibliography", "chapter", "index" or "part". Imortantly,
+the element opening tag and xmlns attribute must be on the same line. This is
+an example:
+
+<article xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+
+SYNTASTIC INTEGRATION
+
+Three syntastic docbook syntax checkers are provided by the dn-docbk ftplugin:
+
+  * xmllintdbk    docbook RelaxNG schema
+  * jingrng       docbook RelaxNG schema
+  * jingsch       docbook Schematron schema
+
+They are defined in the "syntax_checkers/docbk" directory of this plugin.
+
+For each checker the user can use global variables to specify a schema and
+catalog to use:
+
+  * RelaxNG schema       g:dn_docbk_relaxng_schema
+  * Schematron schema    g:dn_docbk_schematron_schema
+  * xml catalog          g:dn_docbook_xml_catalog
+
+If no schema is specified, the checker uses the following values:
+
+  * RelaxNG schema      http://www.docbook.org/xml/5.0/rng/docbook.rng
+  * Schematron schema   http://www.docbook.org/xml/5.0/sch/docbook.sch
+  * xml catalog         default catalog (see xmlcatalog man page)
+
+By default, this plugin sets syntastic to use the "jingrng" and "jingsch"
+checkers by setting the "g:syntastic_docbk_checkers" variable. This can be
+overridden by the user by setting the "b:syntastic_docbk_checkers" variable.
+See syntastic help for more details.
+
+==============================================================================
+FUNCTIONS                                                 *dn-docbk-functions*
+
+dn#docbk#userCatalog()                                *dn#docbk#userCatalog()*
+  Get location of user-supplied xml catalog (if provided). Returns |String|
+  filepath, or "" if none supplied.
+
+dn#docbk#selectElement([method])                    *dn#docbk#selectElement()*
+  User selects a docbk element. The selection [method] can be "filter" or
+  "complete".
+  [method] is "filter" if omitted.
+
+  Returns a |String| element name, or "" if no element selected.
+
+==============================================================================
+VARIABLES                                                      *dn-docbk-vars*
+
+This ftplugin contributes to the |dn-utils| help system (see |dn#util#help()|
+for details). In the help system navigate to: vim -> docbook.
+
+This plugin stores the definition of the docbook specification in a very large
+variable called g:dn_docbk_element_data. Take care if viewing or manipulating
+this variable.
+
+
+vim:tw=78:ts=8:ft=help:norl:
